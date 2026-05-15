@@ -1,9 +1,10 @@
-// src/services/api.js
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost/backend/api';
 
-// Professional product images mapping by category
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost/backend/api';
+
+console.log('API_BASE_URL:', API_BASE_URL); 
+
 const getProfessionalImage = (productId, category, name) => {
   const imageMap = {
     1: 'https://picsum.photos/id/20/400/400',
@@ -28,6 +29,8 @@ const getProfessionalImage = (productId, category, name) => {
 export const getAllProducts = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/products.php`);
+    console.log('Products response:', response.data);
+    
     if (Array.isArray(response.data)) {
       return response.data.map(product => ({
         ...product,
@@ -49,6 +52,8 @@ export const getAllProducts = async () => {
 export const getProductById = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/product.php?id=${id}`);
+    console.log('Product response:', response.data);
+    
     if (response.data && response.data.id) {
       return {
         id: Number(response.data.id),
@@ -60,7 +65,7 @@ export const getProductById = async (id) => {
         description: response.data.description,
         category: response.data.category,
         stock: Number(response.data.stock) || 0,
-        supplier: response.data.supplier || 'WhaleMart',
+        supplier: response.data.supplier || 'E-commerce Store',
         created_at: response.data.created_at
       };
     }
