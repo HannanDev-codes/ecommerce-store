@@ -1,9 +1,10 @@
 {
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build"
   },
   "deploy": {
-    "startCommand": "php -S 0.0.0.0:$PORT -t backend",
-    "healthcheckPath": "/api/products.php"
+    "startCommand": "npm run preview",
+    "healthcheckPath": "/"
   }
 }
