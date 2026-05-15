@@ -1,48 +1,22 @@
 <?php
-// CORS Headers - MUST be first thing after <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+// CORS Headers
+header("Access-Control-Allow-Origin: https://ecommerce-store-theta-woad.vercel.app");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json");
 
-// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-<?php
-// backend/api/auth.php
 require '../config/db.php';
 session_start();
 
-// CORS Headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Content-Type: application/json");
+$data = json_decode(file_get_contents("php://input"), true);
+$action = $data['action'] ?? '';
 
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-// Get the request data
-$rawInput = file_get_contents("php://input");
-$data = json_decode($rawInput, true);
-
-// Debug: Log the received data (check Apache error log)
-error_log("Auth.php received: " . $rawInput);
-
-// Check if action exists
-if (!isset($data['action'])) {
-    echo json_encode(["success" => false, "message" => "No action specified. Received: " . $rawInput]);
-    exit();
-}
-
-$action = $data['action'];
 
 // ============ LOGIN ACTION ============
 if ($action === 'login') {

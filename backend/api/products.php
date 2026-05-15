@@ -1,19 +1,17 @@
 <?php
-// CORS Headers
-header("Access-Control-Allow-Origin: *");
+// CORS Headers - MUST be at the very top
+header("Access-Control-Allow-Origin: https://ecommerce-store-theta-woad.vercel.app");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json");
 
+// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-
-
-<?php
-// api/products.php
 require '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -24,22 +22,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } catch (Exception $e) {
         echo json_encode(["success" => false, "message" => $e->getMessage()]);
     }
-} 
-elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    
-    $stmt = $pdo->prepare("INSERT INTO products (name, price, image, description, category, stock) 
-                          VALUES (?, ?, ?, ?, ?, ?)");
-    
-    $stmt->execute([
-        $data['name'],
-        $data['price'],
-        $data['image'] ?? '',
-        $data['description'] ?? '',
-        $data['category'] ?? 'General',
-        $data['stock'] ?? 10
-    ]);
-
-    echo json_encode(["success" => true, "message" => "Product added successfully", "id" => $pdo->lastInsertId()]);
 }
 ?>
