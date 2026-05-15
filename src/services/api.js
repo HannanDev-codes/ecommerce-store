@@ -1,3 +1,12 @@
+// src/services/api.js
+import axios from 'axios';
+
+// TEMPORARY: Hardcode your Railway URL
+const API_BASE_URL = 'https://ecommerce-store-production-6d3c.up.railway.app/api';
+
+console.log('API_BASE_URL:', API_BASE_URL);
+
+
 import axios from 'axios';
 
 
