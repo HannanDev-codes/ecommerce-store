@@ -1,18 +1,10 @@
 // src/services/api.js
 import axios from 'axios';
 
-// TEMPORARY: Hardcode your Railway URL
-const API_BASE_URL = 'https://ecommerce-store-production-6d3c.up.railway.app/api';
-
-console.log('API_BASE_URL:', API_BASE_URL);
-
-
-import axios from 'axios';
-
-
+// Use environment variable, fallback to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost/backend/api';
 
-console.log('API_BASE_URL:', API_BASE_URL); 
+console.log('API_BASE_URL:', API_BASE_URL);
 
 const getProfessionalImage = (productId, category, name) => {
   const imageMap = {
@@ -68,7 +60,7 @@ export const getProductById = async (id) => {
         id: Number(response.data.id),
         name: response.data.name,
         price: Number(response.data.price),
-        image: response.data.image && response.data.image !== '' && !response.data.image.includes('via.placeholder')
+        image: response.data.image && response.data.image !== '' && !product.image.includes('via.placeholder')
           ? response.data.image
           : getProfessionalImage(response.data.id, response.data.category, response.data.name),
         description: response.data.description,
