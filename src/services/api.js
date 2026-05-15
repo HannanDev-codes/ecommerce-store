@@ -1,8 +1,9 @@
-// src/services/api.js
+// Updated: Fixed duplicate import issue
 import axios from 'axios';
 
 // Use environment variable, fallback to localhost for development
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost/backend/api';
+
 
 console.log('API_BASE_URL:', API_BASE_URL);
 
